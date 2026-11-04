@@ -40,7 +40,7 @@ Los recursos usan rutas relativas para funcionar tanto en un dominio propio como
 
 5. En **Project Settings → API**, copia el Project URL y la clave **publishable** (o la antigua `anon` pública) en `assets/js/supabase-config.js`. Estas claves son públicas para una web estática; la base de datos queda protegida por RLS. **Nunca uses `service_role` ni una clave secreta en el navegador o el repositorio.**
 6. En Supabase, configura los URL permitidos de autenticación con la dirección pública de GitHub Pages y la dirección local desde la que probarás el sitio.
-7. Abre `admin.html` en la URL publicada e inicia sesión. Las fotos nuevas se suben al bucket `product-images`; las fotos del repositorio siguen usando rutas como `assets/images/arai-01.jpg`.
+7. Abre `admin.html` en la URL publicada e inicia sesión. Si no tienes una contraseña, usa **¿Olvidaste tu contraseña?** para recibir un enlace seguro y crearla. Las fotos nuevas se suben al bucket `product-images`; las fotos del repositorio siguen usando rutas como `assets/images/arai-01.jpg`.
 8. Revisa y actualiza el stock real antes de vender. El esquema inicial carga cero unidades para no inventar existencias. Registra las ventas desde el panel: se valida y descuenta stock en la base de datos; para corregir una venta, anúlala y registra una nueva.
 
 El panel no ofrece registro público: para dar acceso a otra persona se requiere agregarla expresamente al allowlist de administradores. La clave `publishable` no es contraseña; privacidad y seguridad dependen de no exponer una `service_role`, mantener el allowlist y conservar activas las políticas RLS.

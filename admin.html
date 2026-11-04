@@ -23,7 +23,16 @@
         <input id="login-password" name="password" type="password" autocomplete="current-password" required>
         <button class="primary-button" type="submit">Iniciar sesión</button>
       </form>
+      <button class="text-button login-reset-button" id="reset-password-button" type="button">¿Olvidaste tu contraseña?</button>
+      <form id="password-update-form" hidden>
+        <label for="new-password">Nueva contraseña</label>
+        <input id="new-password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+        <label for="confirm-password">Confirma la contraseña</label>
+        <input id="confirm-password" name="confirm-password" type="password" autocomplete="new-password" minlength="8" required>
+        <button class="primary-button" type="submit">Guardar contraseña</button>
+      </form>
       <p class="notice error" id="login-error" role="alert" hidden></p>
+      <p class="notice" id="password-reset-notice" role="alert" hidden></p>
       <p class="setup-notice" id="setup-notice" hidden></p>
     </section>
 
