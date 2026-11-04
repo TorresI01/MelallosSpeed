@@ -26,7 +26,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 h1, h2, p { margin-top: 0; }
 .login-card h1 { margin-bottom: 0.65rem; font-size: 1.85rem; }
 .muted { color: var(--admin-muted); line-height: 1.55; }
-#login-form { display: grid; gap: 0.65rem; margin-top: 1.5rem; }
+#login-form, #password-update-form { display: grid; gap: 0.65rem; margin-top: 1.5rem; }
 label { font-size: 0.9rem; font-weight: 650; }
 input, select, textarea { width: 100%; padding: 0.72rem 0.8rem; color: var(--admin-ink); background: white; border: 1px solid var(--admin-border); border-radius: 10px; }
 textarea { min-height: 100px; resize: vertical; }
@@ -36,6 +36,7 @@ textarea { min-height: 100px; resize: vertical; }
 .secondary-button { color: var(--admin-ink); background: white; border: 1px solid var(--admin-border); }
 .secondary-button:hover { background: #f7f9fc; }
 #login-form .primary-button { margin-top: 0.7rem; }
+.login-card .text-button { margin-top: 0.75rem; color: var(--admin-blue); }
 .notice, .setup-notice { margin-top: 1rem; padding: 0.8rem 1rem; color: #1452a0; background: #eaf2ff; border: 1px solid #cfe0ff; border-radius: 10px; font-size: 0.9rem; line-height: 1.5; }
 .notice.error { color: #a52929; background: #fff0ef; border-color: #ffd2ce; }
 .setup-notice { color: #744d00; background: #fff8df; border-color: #f0dfab; }
@@ -49,6 +50,7 @@ textarea { min-height: 100px; resize: vertical; }
 .sidebar-bottom { display: grid; gap: 0.65rem; margin-top: auto; padding: 0.75rem; color: #aebbd2; font-size: 0.88rem; }
 .sidebar-bottom a { text-decoration: none; }
 .sidebar-bottom a:hover, .text-button:hover { color: white; }
+.login-card .text-button:hover { color: #0e57c2; }
 .text-button { padding: 0; color: #aebbd2; text-align: left; background: none; border: 0; }
 .admin-main { min-width: 0; margin-left: 255px; padding: 2rem clamp(1rem, 4vw, 3.5rem); }
 .topbar, .panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
