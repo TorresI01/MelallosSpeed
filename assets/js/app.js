@@ -97,6 +97,16 @@ function waLink(mensaje) {
   return "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(mensaje);
 }
 
+function mensajeConsultaGeneral(solicitud) {
+  return [
+    "Hola, Melallos Speed.",
+    "",
+    "- " + solicitud,
+    "",
+    "- Quedo atento(a) a su asesoría.",
+  ].join("\n");
+}
+
 function formatoPrecio(valor) {
   return "$" + Number(valor).toLocaleString("es-CO");
 }
@@ -119,7 +129,7 @@ function normalizar(texto) {
 
 function activarEnlacesWhatsApp() {
   document.querySelectorAll("[data-wa]").forEach((el) => {
-    el.href = waLink(el.dataset.wa);
+    el.href = waLink(mensajeConsultaGeneral(el.dataset.wa));
     el.target = "_blank";
     el.rel = "noopener";
   });
@@ -383,7 +393,17 @@ function abrirModal(p, origen) {
 
   const resumen = (p.marca ? p.marca + " " : "") + p.nombre + " (" + tipo.nombre + ")" +
     (valor !== null ? " – " + formatoPrecio(valor) : "");
-  mWa.href = waLink("Hola, quiero consultar por: " + resumen);
+  const mensajeProducto = [
+    "Hola, Melallos Speed.",
+    "",
+    "CONSULTA DE PRODUCTO",
+    "- Producto: " + resumen,
+    p.visor ? "- Visor: " + p.visor : null,
+    "",
+    "- Quisiera consultar disponibilidad, tallas y opciones de envío.",
+    "- Gracias.",
+  ].filter((linea) => linea !== null).join("\n");
+  mWa.href = waLink(mensajeProducto);
   mWa.target = "_blank";
   mWa.rel = "noopener";
 
@@ -465,8 +485,17 @@ const COLORES_VISOR = [
 
   enviar.addEventListener("click", () => {
     const modeloCasco = casco.value.trim();
-    const mensaje = "Hola, quiero cotizar un visor personalizado de color " + elegido.nombre.toLowerCase() +
-      (modeloCasco ? " para mi casco: " + modeloCasco : ".");
+    const mensaje = [
+      "Hola, Melallos Speed.",
+      "",
+      "CONSULTA DE VISOR",
+      "- Color: " + elegido.nombre,
+      modeloCasco ? "- Casco: " + modeloCasco : "- Casco: pendiente por confirmar",
+      "",
+      "- Quisiera conocer disponibilidad y precio.",
+      "- Si hace falta, enviaré una foto del casco por este chat.",
+      "- Gracias.",
+    ].join("\n");
     window.open(waLink(mensaje), "_blank", "noopener");
   });
 })();
@@ -528,13 +557,21 @@ form.addEventListener("submit", async (e) => {
   errorForm.hidden = true;
 
   const lineas = [
-    "Hola, quiero hacer un encargo.",
-    "Nombre: " + datos.nombre.trim(),
-    "Producto: " + datos.producto.trim(),
+    "Hola, Melallos Speed.",
+    "",
+    "SOLICITUD DE ENCARGO",
+    "- Nombre: " + datos.nombre.trim(),
+    "- Producto: " + datos.producto.trim(),
   ];
-  if (datos.referencia && datos.referencia.trim()) lineas.push("Marca/referencia: " + datos.referencia.trim());
-  if (datos.talla && datos.talla.trim()) lineas.push("Talla: " + datos.talla.trim());
-  lineas.push("Mi contacto: " + datos.contacto.trim());
+  if (datos.referencia && datos.referencia.trim()) lineas.push("- Marca o referencia: " + datos.referencia.trim());
+  if (datos.talla && datos.talla.trim()) lineas.push("- Talla: " + datos.talla.trim());
+  lineas.push(
+    "- Mi contacto: " + datos.contacto.trim(),
+    "",
+    "- Entiendo que el encargo requiere separar el 40% del valor del casco.",
+    "- Tiempo estimado: 15 a 20 días.",
+    "- Quedo atento(a) a la confirmación de precio y disponibilidad."
+  );
 
   const botonEnviar = form.querySelector('button[type="submit"]');
   const ventanaWhatsApp = window.open("about:blank", "_blank");
