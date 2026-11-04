@@ -6,6 +6,9 @@
   const loginError = document.getElementById("login-error");
   const appNotice = document.getElementById("app-notice");
   const loginForm = document.getElementById("login-form");
+  const resetPasswordButton = document.getElementById("reset-password-button");
+  const passwordUpdateForm = document.getElementById("password-update-form");
+  const passwordResetNotice = document.getElementById("password-reset-notice");
   const recordDialog = document.getElementById("record-dialog");
   const recordForm = document.getElementById("record-form");
   const recordFields = document.getElementById("record-fields");
@@ -206,6 +209,64 @@
     try {
       await checkAdmin();
     } catch (authorizationError) {
+      showNotice(loginError, authorizationError.message, true);
+    }
+  }
+
+  async function sendPasswordRecovery() {
+    clearNotice(loginError);
+    const emailField = loginForm.elements.email;
+    const email = String(emailField.value).trim();
+    if (!email) {
+      showNotice(loginError, "Escribe tu correo electrónico para recibir el enlace de recuperación.", true);
+      emailField.focus();
+      return;
+    }
+
+    resetPasswordButton.disabled = true;
+    const { error } = await client.auth.resetPasswordForEmail(email, {
+      redirectTo: new URL("admin.html", window.location.href).href,
+    });
+    resetPasswordButton.disabled = false;
+    if (error) {
+      showNotice(loginError, "No se pudo enviar el enlace de recuperación: " + error.message, true);
+      return;
+    }
+    showNotice(loginError, "Si el correo está registrado, recibirás un enlace para crear o restablecer tu contraseña.");
+  }
+
+  function showPasswordUpdateForm() {
+    loginForm.hidden = true;
+    resetPasswordButton.hidden = true;
+    passwordUpdateForm.hidden = false;
+    clearNotice(loginError);
+  }
+
+  async function updatePassword(event) {
+    event.preventDefault();
+    clearNotice(passwordResetNotice);
+    const values = new FormData(passwordUpdateForm);
+    const password = String(values.get("password"));
+    if (password !== String(values.get("confirm-password"))) {
+      showNotice(passwordResetNotice, "Las contraseñas no coinciden.", true);
+      return;
+    }
+
+    const submit = passwordUpdateForm.querySelector('button[type="submit"]');
+    submit.disabled = true;
+    const { error } = await client.auth.updateUser({ password });
+    submit.disabled = false;
+    if (error) {
+      showNotice(passwordResetNotice, "No se pudo actualizar la contraseña: " + error.message, true);
+      return;
+    }
+
+    passwordUpdateForm.hidden = true;
+    try {
+      await checkAdmin();
+    } catch (authorizationError) {
+      loginForm.hidden = false;
+      resetPasswordButton.hidden = false;
       showNotice(loginError, authorizationError.message, true);
     }
   }
@@ -668,11 +729,15 @@
     setupNotice.hidden = false;
     setupNotice.textContent = "Falta conectar Supabase. Sigue la guía de configuración del README para crear el proyecto, ejecutar supabase/schema.sql y completar assets/js/supabase-config.js. No uses una clave service_role.";
     loginForm.querySelectorAll("input,button").forEach((element) => { element.disabled = true; });
+    resetPasswordButton.disabled = true;
+    passwordUpdateForm.querySelectorAll("input,button").forEach((element) => { element.disabled = true; });
     return;
   }
 
   client = window.supabase.createClient(config.url, config.publishableKey);
   loginForm.addEventListener("submit", signIn);
+  resetPasswordButton.addEventListener("click", sendPasswordRecovery);
+  passwordUpdateForm.addEventListener("submit", updatePassword);
   document.getElementById("logout-button").addEventListener("click", async () => {
     const { error } = await client.auth.signOut();
     if (error) showNotice(appNotice, "No se pudo cerrar sesión: " + error.message, true);
@@ -703,13 +768,23 @@
   recordForm.addEventListener("submit", saveRecord);
   document.getElementById("close-dialog").addEventListener("click", () => recordDialog.close());
   document.getElementById("cancel-dialog").addEventListener("click", () => recordDialog.close());
-  client.auth.onAuthStateChange((_event, session) => {
+  client.auth.onAuthStateChange((event, session) => {
+    if (event === "PASSWORD_RECOVERY") showPasswordUpdateForm();
     if (!session) {
       appScreen.hidden = true;
       loginScreen.hidden = false;
+      if (event === "SIGNED_OUT") {
+        loginForm.hidden = false;
+        resetPasswordButton.hidden = false;
+        passwordUpdateForm.hidden = true;
+      }
     }
   });
-  checkAdmin().catch((error) => {
-    showNotice(loginError, error.message || "No se pudo validar la sesión.", true);
-  });
+  const recoveryLink = new URLSearchParams(window.location.hash.slice(1)).get("type") === "recovery";
+  if (recoveryLink) showPasswordUpdateForm();
+  else {
+    checkAdmin().catch((error) => {
+      showNotice(loginError, error.message || "No se pudo validar la sesión.", true);
+    });
+  }
 })();
