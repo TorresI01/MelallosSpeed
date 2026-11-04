@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Melallos Speed | Cascos para motociclistas en Itagüí, Medellín</title>
+  <meta name="description" content="Melallos Speed: cascos Arai, AGV y Shoei, visores y accesorios para motociclistas. Consulta productos, haz encargos y pregunta por envíos desde Itagüí, Medellín.">
+  <meta name="theme-color" content="#fbfbfd">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_CO">
+  <meta property="og:title" content="Melallos Speed | Cascos para motociclistas">
+  <meta property="og:description" content="Cascos y accesorios para motociclistas. Consulta productos, encargos y envíos desde Itagüí, Medellín.">
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/images/arai-06.jpg" fetchpriority="high">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "Melallos Speed",
+      "telephone": "+573215203260",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Dg. 38A # 34-4, Ángeles",
+        "addressLocality": "Itagüí",
+        "addressRegion": "Antioquia",
+        "addressCountry": "CO"
+      },
+      "sameAs": ["https://www.instagram.com/melallos_speed/"]
+    }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header glass">
+    <div class="wrap header-inner">
+      <a class="brand" href="#inicio" aria-label="Melallos Speed, ir al inicio">
+        <img class="brand-logo" src="assets/images/logo.png" alt="" width="32" height="32">
+        <span class="brand-name">Melallos Speed</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu">
+        <span class="sr-only">Abrir menú</span>
+        <span class="nav-toggle-bars" aria-hidden="true"></span>
+      </button>
+
+      <nav class="nav" id="menu" aria-label="Principal">
+        <ul>
+          <li><a href="#catalogo">Catálogo</a></li>
+          <li><a href="#visores">Visores</a></li>
+          <li><a href="#encargos">Encargos</a></li>
+          <li><a href="#envios">Envíos</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+        <a class="btn btn-primary btn-small" data-wa="Hola, quiero consultar por un producto de Melallos Speed." href="#contacto">WhatsApp</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <!-- INICIO -->
+    <section class="hero" id="inicio">
+      <div class="wrap hero-inner">
+        <h1>Tu próximo casco<br>empieza aquí.</h1>
+        <p class="lead">Cascos y accesorios para motociclistas que quieren protegerse sin renunciar a su estilo.</p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#catalogo">Explorar el catálogo</a>
+          <a class="btn-link" data-wa="Hola, quiero consultar por un producto de Melallos Speed." href="#contacto">Escribir por WhatsApp</a>
+        </div>
+
+        <div class="showcase" aria-hidden="true">
+          <img class="sc-side sc-left" src="assets/images/arai-13.jpg" alt="" width="800" height="818">
+          <img class="sc-main" src="assets/images/arai-06.jpg" alt="" width="800" height="817" fetchpriority="high">
+          <img class="sc-side sc-right" src="assets/images/arai-11.jpg" alt="" width="800" height="817">
+        </div>
+
+        <ul class="pills glass">
+          <li>Cascos Arai, AGV y Shoei</li>
+          <li>Encargos a pedido</li>
+          <li>Envíos y crédito</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CATÁLOGO -->
+    <section class="section" id="catalogo">
+      <div class="wrap">
+        <div class="section-head center">
+          <h2>Catálogo</h2>
+          <p>Elige tu casco. Pregunta por precio, talla y disponibilidad antes de comprar.</p>
+        </div>
+
+        <div class="toolbar">
+          <div class="segmented glass" role="group" aria-label="Filtrar por tipo">
+            <button type="button" class="seg is-active" data-cat="integrales" aria-pressed="true">Full face</button>
+            <button type="button" class="seg" data-cat="abiertos" aria-pressed="false">Open face</button>
+            <button type="button" class="seg" data-cat="otros" aria-pressed="false">Otros</button>
+          </div>
+
+          <div class="toolbar-right">
+            <label class="select glass">
+              <span class="sr-only">Filtrar por marca</span>
+              <select id="marca">
+                <option value="todas">Todas las marcas</option>
+                <option value="Arai">Arai</option>
+                <option value="AGV">AGV</option>
+                <option value="Shoei">Shoei</option>
+              </select>
+            </label>
+
+            <label class="search glass">
+              <span class="sr-only">Buscar por nombre</span>
+              <input type="search" id="buscar" placeholder="Buscar" autocomplete="off">
+            </label>
+          </div>
+        </div>
+
+        <p class="result-count" id="conteo" aria-live="polite">
+          <span class="loading-spinner" aria-hidden="true"></span>
+          Cargando catálogo…
+        </p>
+        <p class="catalog-error" id="catalog-error" role="alert" hidden></p>
+        <noscript><p class="catalog-error">Activa JavaScript en tu navegador para consultar el catálogo y sus filtros.</p></noscript>
+
+        <div class="cat-block" id="integrales" data-cat="integrales">
+          <h3 class="cat-title">Full face <span>Cascos integrales</span></h3>
+          <div class="grid"></div>
+        </div>
+
+        <div class="cat-block" id="abiertos" data-cat="abiertos">
+          <h3 class="cat-title">Open face <span>Cascos abiertos</span></h3>
+          <div class="grid"></div>
+        </div>
+
+        <div class="cat-block" id="otros" data-cat="otros">
+          <h3 class="cat-title">Otros <span>Visores y accesorios</span></h3>
+          <div class="grid"></div>
+        </div>
+
+        <p class="empty" id="vacio" hidden>No encontramos productos con ese filtro. Prueba con otra opción o escríbenos por WhatsApp.</p>
+      </div>
+    </section>
+
+    <!-- VISORES PERSONALIZADOS -->
+    <section class="section alt" id="visores">
+      <div class="wrap visor-lab">
+        <div class="visor-stage glass-dark">
+          <div class="visor-preview" id="visor-preview" aria-hidden="true"></div>
+          <p class="visor-name" id="visor-nombre" aria-live="polite"></p>
+        </div>
+
+        <div class="visor-controls">
+          <h2>Visores personalizados</h2>
+          <p class="sub">Elige el color de tu visor y cuéntanos para qué casco es. Te confirmamos disponibilidad, acabado y precio por WhatsApp.</p>
+
+          <div class="swatches" id="swatches" role="radiogroup" aria-label="Color del visor"></div>
+
+          <div class="field-light">
+            <label for="v-casco">Marca y modelo de tu casco</label>
+            <input id="v-casco" type="text" placeholder="Ej. Arai, Shoei, AGV…" autocomplete="off">
+          </div>
+
+          <button class="btn btn-primary" id="v-enviar" type="button">Cotizar por WhatsApp</button>
+          <p class="fine">Los colores son de referencia. Confirmamos disponibilidad y acabado antes de que decidas.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ENCARGOS -->
+    <section class="section dark" id="encargos">
+      <div class="wrap split">
+        <div class="section-head">
+          <h2>¿No ves tu casco? Lo encargamos.</h2>
+          <p>Cuéntanos qué casco, visor o accesorio quieres. Revisamos si podemos conseguirlo y te confirmamos precio y tiempo de entrega antes de que decidas.</p>
+          <ul class="order-terms">
+            <li><strong>Separación:</strong> 40% del valor del casco. El monto exacto en pesos depende del precio del modelo.</li>
+            <li><strong>Tiempo estimado:</strong> de 15 a 20 días.</li>
+          </ul>
+          <ol class="steps">
+            <li>Dinos qué producto buscas.</li>
+            <li>Te confirmamos si podemos conseguirlo.</li>
+            <li>Recibes precio y tiempo estimado.</li>
+            <li>Decides si haces el pedido.</li>
+          </ol>
+        </div>
+
+        <form class="form glass-dark" id="form-encargo" novalidate>
+          <div class="field">
+            <label for="e-nombre">Tu nombre</label>
+            <input id="e-nombre" name="nombre" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="e-producto">Producto que buscas</label>
+            <input id="e-producto" name="producto" type="text" placeholder="Ej. casco integral Arai" required>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="e-ref">Marca o referencia (opcional)</label>
+              <input id="e-ref" name="referencia" type="text">
+            </div>
+            <div class="field">
+              <label for="e-talla">Talla (opcional)</label>
+              <input id="e-talla" name="talla" type="text" placeholder="Ej. M">
+            </div>
+          </div>
+          <div class="field">
+            <label for="e-contacto">Tu teléfono o WhatsApp</label>
+            <input id="e-contacto" name="contacto" type="tel" autocomplete="tel" required>
+          </div>
+          <div class="field-consent">
+            <input id="e-consentimiento" name="consentimiento" type="checkbox" required>
+            <label for="e-consentimiento">Autorizo el tratamiento y almacenamiento de mis datos para gestionar esta consulta y, si lo decido, continuar por WhatsApp. Leí la <a href="privacidad.html" target="_blank" rel="noopener">Política de privacidad</a>.</label>
+          </div>
+          <p class="hint">Al enviar se abrirá WhatsApp con tu solicitud lista. Si tienes una foto de referencia, adjúntala en ese chat.</p>
+          <p class="form-error" id="form-error" role="alert" hidden></p>
+          <button class="btn btn-primary" type="submit">Enviar encargo por WhatsApp</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ENVÍOS Y FINANCIACIÓN -->
+    <section class="section" id="envios">
+      <div class="wrap">
+        <div class="section-head center">
+          <h2>Envíos y financiación</h2>
+          <p>Las condiciones pueden variar según el producto y la ciudad. Escríbenos y te confirmamos los datos de tu pedido.</p>
+        </div>
+
+        <div class="info-grid">
+          <article class="tile">
+            <h3>Envíos</h3>
+            <p>Pregúntanos por cobertura, costo y tiempo de entrega para tu ciudad. Te informamos el estado de tu pedido por WhatsApp.</p>
+            <a class="btn-link" data-wa="Hola, quiero saber cómo funcionan los envíos." href="#contacto">Consultar envío</a>
+          </article>
+          <article class="tile">
+            <h3>Crédito</h3>
+            <p>Ofrecemos una alternativa de crédito para tus compras. Consulta requisitos y medios de pago antes de decidir.</p>
+            <a class="btn-link" data-wa="Hola, quiero información sobre el crédito para mi compra." href="#contacto">Preguntar por crédito</a>
+          </article>
+          <article class="tile">
+            <h3>Antes de comprar</h3>
+            <p>Escríbenos para confirmar tallas, garantía y cambios del producto que te interesa.</p>
+            <a class="btn-link" data-wa="Hola, quiero confirmar tallas y garantía de un producto." href="#contacto">Confirmar detalles</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOSOTROS -->
+    <section class="section alt" id="nosotros">
+      <div class="wrap narrow center">
+        <h2>Sobre Melallos Speed</h2>
+        <p>Melallos Speed es una marca del mundo del motociclismo, con una propuesta enfocada en cascos y accesorios para quienes disfrutan de las motos y buscan productos que se adapten a su estilo.</p>
+        <p>A través de nuestros canales digitales acercamos los productos a los motociclistas y facilitamos la consulta de referencias, los encargos y las opciones de compra.</p>
+        <p class="location">Itagüí, Medellín</p>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="section" id="contacto">
+      <div class="wrap contact-layout">
+        <div class="contact-location">
+          <div class="map">
+            <iframe
+              title="Ubicación de Melallos Speed en Itagüí"
+              src="https://www.google.com/maps?q=6.1650552,-75.6137686&z=17&output=embed"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+          </div>
+          <a class="btn btn-primary" href="https://maps.app.goo.gl/ychYpTRE3JGaHRcA9" target="_blank" rel="noopener">Cómo llegar</a>
+        </div>
+
+        <div class="contact-info">
+          <h2>Hablemos de tu próximo casco</h2>
+          <p class="sub">La forma más rápida de consultar un producto es escribirnos por WhatsApp.</p>
+          <a class="btn btn-wa" data-wa="Hola, quiero consultar por un producto de Melallos Speed." href="#contacto">Escribir por WhatsApp</a>
+
+          <ul class="contact-list">
+            <li><span class="contact-label">Instagram</span>
+              <a class="btn-link" href="https://www.instagram.com/melallos_speed/" target="_blank" rel="noopener">@melallos_speed</a></li>
+            <li><span class="contact-label">Ubicación</span>
+              <span class="contact-addr">Dg. 38A # 34-4, Ángeles<br>Itagüí, Antioquia</span></li>
+            <li><span class="contact-label">Horarios</span><span>Consúltalos por WhatsApp</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <span>&copy; <span id="anio"></span> Melallos Speed · Dg. 38A # 34-4, Ángeles · Itagüí, Antioquia</span>
+      <nav class="footer-links" aria-label="Información legal">
+        <a href="privacidad.html">Privacidad</a>
+        <a href="cookies.html">Cookies</a>
+        <a href="derechos-autor.html">Derechos de autor</a>
+        <a href="#inicio">Volver arriba</a>
+      </nav>
+    </div>
+  </footer>
+
+  <a class="wa-float glass" data-wa="Hola, quiero consultar por un producto de Melallos Speed." href="#contacto" aria-label="Escribir por WhatsApp">
+    <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.200Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.700 6.700 0 0 1-3.300-2.900c-.3-.4.300-.4.800-1.400.1-.2 0-.3 0-.5l-.8-1.900c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.200c0 1.300.9 2.500 1 2.700.1.200 1.800 2.800 4.400 3.900 1.600.7 2.300.8 3.100.6.500-.1 1.500-.6 1.700-1.200.2-.6.2-1.100.1-1.200-.1-.1-.2-.2-.4-.3Z"/></svg>
+  </a>
+
+  <!-- VENTANA DE PRODUCTO -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-window" role="dialog" aria-modal="true" aria-labelledby="m-titulo">
+      <button class="modal-close" type="button" data-close aria-label="Cerrar ventana">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg>
+      </button>
+
+      <div class="modal-gallery">
+        <div class="modal-media" id="m-media"></div>
+        <div class="modal-thumbs" id="m-thumbs" hidden></div>
+      </div>
+
+      <div class="modal-info">
+        <span class="badge-inline" id="m-marca"></span>
+        <h3 id="m-titulo"></h3>
+        <p class="m-precio" id="m-precio"></p>
+        <p class="m-desc" id="m-desc"></p>
+        <details class="m-acordeon" id="m-acordeon">
+          <summary>Detalles del producto</summary>
+          <dl class="m-detalles" id="m-detalles"></dl>
+        </details>
+        <div class="m-actions">
+          <a class="btn btn-wa" id="m-wa" href="#contacto">Consultar por WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="assets/js/supabase-config.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
+</body>
+</html>

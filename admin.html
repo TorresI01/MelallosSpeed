@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Administración | Melallos Speed</title>
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body class="admin-body">
+  <main class="admin-shell">
+    <section class="login-card" id="admin-login">
+      <a class="admin-brand" href="index.html">Melallos <span>Speed</span></a>
+      <p class="eyebrow">ADMINISTRACIÓN PRIVADA</p>
+      <h1>Ingresar al panel</h1>
+      <p class="muted">Usa la cuenta autorizada en Supabase para administrar el negocio.</p>
+      <form id="login-form">
+        <label for="login-email">Correo electrónico</label>
+        <input id="login-email" name="email" type="email" autocomplete="username" required>
+        <label for="login-password">Contraseña</label>
+        <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+        <button class="primary-button" type="submit">Iniciar sesión</button>
+      </form>
+      <p class="notice error" id="login-error" role="alert" hidden></p>
+      <p class="setup-notice" id="setup-notice" hidden></p>
+    </section>
+
+    <section class="admin-app" id="admin-app" hidden>
+      <aside class="sidebar">
+        <a class="admin-brand" href="index.html">Melallos <span>Speed</span></a>
+        <p class="eyebrow">PANEL DEL NEGOCIO</p>
+        <nav class="admin-nav" aria-label="Administración">
+          <button type="button" class="nav-item is-active" data-view="dashboard">Resumen</button>
+          <button type="button" class="nav-item" data-view="products">Productos e inventario</button>
+          <button type="button" class="nav-item" data-view="customers">Clientes</button>
+          <button type="button" class="nav-item" data-view="inquiries">Encargos</button>
+          <button type="button" class="nav-item" data-view="sales">Ventas</button>
+          <button type="button" class="nav-item" data-view="expenses">Gastos</button>
+          <button type="button" class="nav-item" data-view="suppliers">Proveedores</button>
+          <button type="button" class="nav-item" data-view="inventory_movements">Movimientos de inventario</button>
+          <button type="button" class="nav-item" data-view="reports">Informes</button>
+        </nav>
+        <div class="sidebar-bottom">
+          <a href="index.html" target="_blank" rel="noopener">Ver sitio público</a>
+          <button type="button" id="logout-button" class="text-button">Cerrar sesión</button>
+        </div>
+      </aside>
+
+      <div class="admin-main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">MELALLOS SPEED</p>
+            <h1 id="page-title">Resumen del negocio</h1>
+          </div>
+          <span class="user-badge" id="admin-email"></span>
+        </header>
+        <div class="notice" id="app-notice" role="status" hidden></div>
+        <section class="dashboard-view" id="dashboard-view">
+          <div class="metric-grid" id="metric-grid"></div>
+          <div class="panel-card">
+            <div class="panel-heading">
+              <div><p class="eyebrow">ATENCIÓN PENDIENTE</p><h2>Últimos encargos</h2></div>
+              <button type="button" class="secondary-button" data-go="inquiries">Ver encargos</button>
+            </div>
+            <div id="recent-inquiries"></div>
+          </div>
+        </section>
+        <section class="module-view" id="module-view" hidden>
+          <div class="panel-card">
+            <div class="panel-heading">
+              <div><p class="eyebrow" id="module-eyebrow">ADMINISTRACIÓN</p><h2 id="module-heading"></h2></div>
+              <div class="panel-actions">
+                <button type="button" class="secondary-button" id="export-button">Exportar CSV</button>
+                <button type="button" class="primary-button" id="add-record-button">Nuevo registro</button>
+              </div>
+            </div>
+            <p class="muted module-description" id="module-description"></p>
+            <div class="table-wrap" id="table-wrap"></div>
+            <div class="pagination">
+              <button type="button" class="secondary-button" id="previous-page">Anterior</button>
+              <span id="page-indicator"></span>
+              <button type="button" class="secondary-button" id="next-page">Siguiente</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="record-dialog" id="record-dialog">
+    <form id="record-form">
+      <div class="panel-heading">
+        <div><p class="eyebrow">REGISTRO DEL NEGOCIO</p><h2 id="record-title">Nuevo registro</h2></div>
+        <button type="button" class="icon-button" id="close-dialog" aria-label="Cerrar">×</button>
+      </div>
+      <div class="form-grid" id="record-fields"></div>
+      <p class="notice error" id="record-error" role="alert" hidden></p>
+      <div class="dialog-actions">
+        <button type="button" class="secondary-button" id="cancel-dialog">Cancelar</button>
+        <button type="submit" class="primary-button" id="save-record-button">Guardar registro</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="assets/js/supabase-config.js" defer></script>
+  <script src="assets/js/admin.js" defer></script>
+</body>
+</html>
