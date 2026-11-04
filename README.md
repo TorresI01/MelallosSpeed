@@ -45,6 +45,8 @@ Los recursos usan rutas relativas para funcionar tanto en un dominio propio como
 
 El panel no ofrece registro público: para dar acceso a otra persona se requiere agregarla expresamente al allowlist de administradores. La clave `publishable` no es contraseña; privacidad y seguridad dependen de no exponer una `service_role`, mantener el allowlist y conservar activas las políticas RLS.
 
+Los mensajes de WhatsApp se preparan con los datos de la consulta, organizados en líneas con guiones.
+
 El panel incluye resumen, productos, stock y movimientos, clientes, encargos, ventas, gastos, proveedores, informes de los últimos 12 meses y exportación CSV por página. Mantén activas las copias de seguridad del proyecto y descarga periódicamente una copia de los datos importantes. El proyecto de Supabase de Melallos Speed ya está conectado en `assets/js/supabase-config.js`, el esquema se encuentra instalado y el usuario administrador quedó invitado y autorizado. El primer acceso depende de aceptar la invitación enviada al correo administrador.
 
 El formulario público limita los permisos de escritura con RLS y exige autorización, pero no incluye un CAPTCHA ni un límite de frecuencia del lado servidor. Si el formulario recibe spam, añade una verificación anti-bots (por ejemplo, con una Supabase Edge Function) antes de aceptar tráfico público.
