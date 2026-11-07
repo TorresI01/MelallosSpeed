@@ -5,7 +5,6 @@
 /* ---------- 1. DATOS QUE DEBES COMPLETAR ---------- */
 
 const CONFIG = {
-  // Número de WhatsApp con indicativo de país y sin "+" ni espacios.
   whatsapp: "573215203260",
 };
 
@@ -17,77 +16,13 @@ const database = supabaseReady
   ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.publishableKey)
   : null;
 
-// Precio por defecto de cada categoría (pesos colombianos).
-// Si un producto tiene su propio "precio", ese manda.
-const PRECIOS = {
-  integrales: 850000, // Full face
-  abiertos: 650000,   // Open face
-};
-
 const TIPOS = {
   integrales: { nombre: "Full face · integral", info: "Casco integral: cubre toda la cabeza y el mentón, y lleva visor frontal." },
   abiertos:   { nombre: "Open face · abierto",  info: "Casco abierto: deja el rostro descubierto y lleva visor frontal." },
   otros:      { nombre: "Accesorio",            info: "Accesorio para motociclistas." },
 };
 
-/*
-  Catálogo. Reemplaza los nombres por los modelos reales cuando los tengas.
-  - categoria: "integrales" (full face) | "abiertos" (open face) | "otros"
-  - marca: "Arai" | "AGV" | "Shoei" | "" (el filtro de marca usa este valor)
-  - precio: número en pesos; si no lo pones se usa el de la categoría (PRECIOS)
-  - tallas: lista (ej. ["S", "M", "L"]) o nada si no la tienes
-  - visor: tipo de visor que muestra la foto
-  - descripcion: texto que sale en la ventana del producto
-  - imagen: foto principal dentro de assets/images/ (o "imagenes": [...] para varias vistas)
-  - foto: true si la imagen tiene fondo oscuro (no blanco)
-*/
-const PRODUCTOS = [
-  // ---- Full face (integrales) ----
-  { nombre: "Blanco con visor iridiscente", categoria: "integrales", marca: "Arai", imagen: "assets/images/arai-01.jpg", visor: "Iridiscente dorado",
-    descripcion: "Acabado blanco liso con visor iridiscente. Un diseño limpio que combina con cualquier moto." },
-  { nombre: "Gráfico rojo, negro y azul", categoria: "integrales", marca: "Arai", imagen: "assets/images/arai-02.jpg", visor: "Ahumado",
-    descripcion: "Diseño deportivo en rojo, negro y azul con detalles dorados y visor ahumado." },
-  { nombre: "Samurái dorado y negro", categoria: "integrales", marca: "Arai", imagen: "assets/images/arai-03.jpg", visor: "Iridiscente dorado",
-    descripcion: "Gráfico de samurái al atardecer en negro, dorado y amarillo, con visor iridiscente." },
-  { nombre: "Estrellas y franjas rojo y azul", categoria: "integrales", marca: "Arai", imagen: "assets/images/arai-04.jpg", visor: "Iridiscente multicolor",
-    descripcion: "Diseño de estrellas y franjas en rojo, blanco y azul, con visor iridiscente multicolor." },
-  { nombre: "Cromo negro", categoria: "integrales", marca: "Arai", imagen: "assets/images/arai-05.jpg", visor: "Ahumado",
-    descripcion: "Acabado cromado oscuro tipo espejo con visor ahumado. Discreto y llamativo a la vez." },
-  { nombre: "Grulla y flores de cerezo", categoria: "integrales", marca: "Arai", imagen: "assets/images/arai-06.jpg", visor: "Iridiscente rojo",
-    descripcion: "Gráfico artístico de una grulla con flores de cerezo en blanco, dorado y azul, con visor iridiscente rojo." },
-  { nombre: "Gráfico japonés rojo y blanco", categoria: "integrales", marca: "Arai", imagen: "assets/images/arai-07.jpg", visor: "Iridiscente verde",
-    descripcion: "Diseño oriental muy colorido en rojo, blanco y dorado, con visor iridiscente verde." },
-  { nombre: "Llamas rojas", categoria: "integrales", marca: "Arai", imagen: "assets/images/arai-08.jpg", visor: "Iridiscente dorado",
-    descripcion: "Llamas rojas y negras sobre fondo blanco, con visor iridiscente." },
-  { nombre: "Gráfico rojo, blanco y negro", categoria: "integrales", marca: "Arai", imagen: "assets/images/arai-09.jpg", visor: "Ahumado",
-    descripcion: "Trazos geométricos en rojo, blanco y negro con visor ahumado. Look deportivo de competición." },
-  { nombre: "Negro mate edición Red Bull", categoria: "integrales", marca: "Arai", imagen: "assets/images/arai-10.jpg", visor: "Ahumado",
-    descripcion: "Negro mate con gráficos de Red Bull en rojo y amarillo, y detalles en azul turquesa." },
-  { nombre: "Edición Isle of Man TT", categoria: "integrales", marca: "Arai", imagen: "assets/images/arai-11.jpg", visor: "Iridiscente dorado",
-    descripcion: "Gráfico de la carrera Isle of Man Tourist Trophy en naranja, azul y rojo." },
-  { nombre: "Estrellas y barras", categoria: "integrales", marca: "Arai", imagen: "assets/images/arai-12.jpg", visor: "Iridiscente multicolor",
-    descripcion: "Diseño de estrellas y barras en rojo, blanco y azul, con detalles verdes y visor iridiscente." },
-  { nombre: "Blanco con flores de cerezo", categoria: "integrales", marca: "Arai", imagen: "assets/images/arai-13.jpg", visor: "Iridiscente dorado",
-    descripcion: "Blanco con flores de cerezo rosadas y base celeste, con visor iridiscente." },
-  { nombre: "Blanco y negro con visor transparente", categoria: "integrales", marca: "Arai", imagen: "assets/images/arai-14.jpg", visor: "Transparente",
-    descripcion: "Gráfico geométrico en blanco y negro con visor transparente." },
-  { nombre: "Blanco con visor azul", categoria: "integrales", marca: "Shoei", imagen: "assets/images/shoei-blanco-integral.jpg", foto: true, visor: "Iridiscente azul",
-    descripcion: "Casco blanco liso con visor iridiscente azul." },
-  { nombre: "Gráficos de competición", categoria: "integrales", marca: "AGV", imagen: "assets/images/agv-sandia-integral.jpg", foto: true, visor: "Iridiscente multicolor",
-    descripcion: "Gráficos coloridos de competición con visor iridiscente." },
-  { nombre: "Gráfico de puntos de colores", categoria: "integrales", marca: "AGV", imagen: "assets/images/agv-lentejuelas-integral.jpg", foto: true, visor: "Iridiscente azul y violeta",
-    descripcion: "Gráfico de puntos de colores sobre fondo azul, con visor iridiscente." },
-
-  // ---- Open face (abiertos) ----
-  { nombre: "Blanco con visor iridiscente", categoria: "abiertos", marca: "Shoei", imagen: "assets/images/shoei-blanco-abierto.jpg", foto: true, visor: "Iridiscente",
-    descripcion: "Casco abierto blanco con visor iridiscente. Ligero y cómodo para la ciudad." },
-  { nombre: "Casco abierto Arai", categoria: "abiertos", marca: "Arai", imagen: "",
-    descripcion: "Casco abierto Arai. Escríbenos para conocer los diseños y tallas disponibles." },
-
-  // ---- Otros ----
-  { nombre: "Accesorio para motociclista", categoria: "otros", marca: "", imagen: "",
-    descripcion: "Accesorios para tu casco y tu moto. Pregúntanos qué tenemos disponible." },
-];
+const PRODUCTOS = [];
 
 /* ---------- 2. UTILIDADES ---------- */
 
@@ -115,7 +50,7 @@ function precioDe(p) {
   if (p.precio !== null && p.precio !== undefined && p.precio !== "" && Number.isFinite(Number(p.precio))) {
     return Number(p.precio);
   }
-  return PRECIOS[p.categoria] || null;
+  return null;
 }
 
 function normalizar(texto) {
@@ -143,11 +78,23 @@ const conteo = document.getElementById("conteo");
 const inputBuscar = document.getElementById("buscar");
 const selectMarca = document.getElementById("marca");
 const botonesTipo = document.querySelectorAll(".seg");
+let catalogoCargando = true;
+
+function mostrarErrorCatalogo(message) {
+  PRODUCTOS.splice(0, PRODUCTOS.length);
+  catalogoCargando = false;
+  document.getElementById("catalogo").setAttribute("aria-busy", "false");
+  renderCatalogo();
+  conteo.classList.add("is-error");
+  conteo.textContent = "Catálogo no disponible";
+  const aviso = document.getElementById("catalog-error");
+  aviso.hidden = false;
+  aviso.textContent = message;
+}
 
 window.addEventListener("error", () => {
-  if (conteo.textContent.includes("Cargando catálogo")) {
-    conteo.classList.add("is-error");
-    conteo.textContent = "No se pudo cargar el catálogo. Recarga la página para volver a intentarlo.";
+  if (catalogoCargando) {
+    mostrarErrorCatalogo("No se pudo cargar el catálogo. Recarga la página para volver a intentarlo.");
   }
 });
 
@@ -252,24 +199,48 @@ function renderCatalogo() {
     bloque.hidden = delBloque.length === 0;
   });
 
-  mensajeVacio.hidden = lista.length > 0;
+  mensajeVacio.hidden = catalogoCargando || PRODUCTOS.length === 0 || lista.length > 0;
+  if (catalogoCargando) {
+    conteo.classList.remove("is-error");
+    conteo.textContent = "Cargando catálogo…";
+    return;
+  }
+  conteo.classList.remove("is-error");
   conteo.textContent = lista.length === 1 ? "1 producto" : lista.length + " productos";
 }
 
+function actualizarFiltroMarcas() {
+  const selectedBrand = selectMarca.value;
+  const brands = [...new Set(PRODUCTOS.map((product) => product.marca).filter(Boolean))]
+    .sort((a, b) => a.localeCompare(b, "es"));
+  selectMarca.replaceChildren();
+  const allBrands = document.createElement("option");
+  allBrands.value = "todas";
+  allBrands.textContent = "Todas las marcas";
+  selectMarca.appendChild(allBrands);
+  brands.forEach((brand) => {
+    const option = document.createElement("option");
+    option.value = brand;
+    option.textContent = brand;
+    selectMarca.appendChild(option);
+  });
+  selectMarca.value = brands.includes(selectedBrand) ? selectedBrand : "todas";
+}
+
 async function cargarCatalogoAdministrado() {
-  if (!database) return;
+  if (!database) {
+    mostrarErrorCatalogo("No hay conexión con Supabase; el catálogo real no se puede mostrar.");
+    return;
+  }
+  document.getElementById("catalogo").setAttribute("aria-busy", "true");
   const { data, error } = await database
     .from("products")
     .select("id,name,category,brand,description,price_cop,image_path,image_style,visor,active")
     .eq("active", true)
     .order("name");
 
-  if (error) {
-    const aviso = document.getElementById("catalog-error");
-    aviso.hidden = false;
-    aviso.textContent = "No se pudo cargar el catálogo actualizado. " + error.message;
-    return;
-  }
+  if (error) throw error;
+  if (!Array.isArray(data)) throw new Error("Supabase devolvió una respuesta inválida para el catálogo.");
 
   PRODUCTOS.splice(0, PRODUCTOS.length, ...data.map((producto) => ({
     id: producto.id,
@@ -282,6 +253,12 @@ async function cargarCatalogoAdministrado() {
     visor: producto.visor || "",
     foto: producto.image_style === "cover",
   })));
+  actualizarFiltroMarcas();
+  catalogoCargando = false;
+  document.getElementById("catalogo").setAttribute("aria-busy", "false");
+  const aviso = document.getElementById("catalog-error");
+  aviso.hidden = true;
+  aviso.textContent = "";
   renderCatalogo();
 }
 
@@ -525,6 +502,14 @@ document.addEventListener("keydown", (e) => { if (e.key === "Escape") cerrarMenu
 const form = document.getElementById("form-encargo");
 const errorForm = document.getElementById("form-error");
 
+// Protección contra spam: tiempo mínimo desde que la persona empieza a escribir,
+// un campo trampa invisible ("sitio_web") y una espera entre envíos.
+const ESPERA_MINIMA_MS = 3000;
+const ESPERA_ENTRE_ENVIOS_MS = 30000;
+let inicioFormulario = 0;
+let ultimoEnvio = 0;
+form.addEventListener("focusin", () => { if (!inicioFormulario) inicioFormulario = Date.now(); });
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -535,6 +520,22 @@ form.addEventListener("submit", async (e) => {
   }
 
   const datos = Object.fromEntries(new FormData(form).entries());
+
+  // Un robot rellena el campo trampa: se ignora el envío sin avisar.
+  if (datos.sitio_web) return;
+
+  // Los robots envían el formulario sin escribirlo o demasiado rápido.
+  if (!inicioFormulario || Date.now() - inicioFormulario < ESPERA_MINIMA_MS) {
+    errorForm.textContent = "Espera unos segundos y vuelve a pulsar «Enviar».";
+    errorForm.hidden = false;
+    return;
+  }
+  if (ultimoEnvio && Date.now() - ultimoEnvio < ESPERA_ENTRE_ENVIOS_MS) {
+    errorForm.textContent = "Ya enviaste una solicitud hace unos segundos. Espera un momento antes de enviar otra.";
+    errorForm.hidden = false;
+    return;
+  }
+
   const obligatorios = ["nombre", "producto", "contacto"];
   const faltantes = obligatorios.filter((campo) => !String(datos[campo] || "").trim());
   const consentimiento = form.elements.consentimiento.checked;
@@ -587,16 +588,18 @@ form.addEventListener("submit", async (e) => {
       reference: datos.referencia ? datos.referencia.trim() : null,
       size: datos.talla ? datos.talla.trim() : null,
       consent_given: true,
-      source: "sitio_web",
     });
     if (error) {
       if (ventanaWhatsApp) ventanaWhatsApp.close();
-      errorForm.textContent = "No pudimos guardar tu solicitud. No se envió por WhatsApp; inténtalo de nuevo o escríbenos directamente.";
+      errorForm.textContent = /demasiadas solicitudes/i.test(error.message || "")
+        ? "Recibimos varias solicitudes con estos datos. Espera un rato o escríbenos directamente por WhatsApp."
+        : "No pudimos guardar tu solicitud. No se envió por WhatsApp; inténtalo de nuevo o escríbenos directamente.";
       errorForm.hidden = false;
       console.error("Supabase rechazó el encargo:", error.message);
       return;
     }
 
+    ultimoEnvio = Date.now();
     const enlaceWhatsApp = waLink(lineas.join("\n"));
     if (ventanaWhatsApp) {
       ventanaWhatsApp.location.href = enlaceWhatsApp;
@@ -625,10 +628,7 @@ form.addEventListener("submit", async (e) => {
 
 document.getElementById("anio").textContent = new Date().getFullYear();
 activarEnlacesWhatsApp();
-renderCatalogo();
 cargarCatalogoAdministrado().catch((error) => {
-  const aviso = document.getElementById("catalog-error");
-  aviso.hidden = false;
-  aviso.textContent = "No se pudo cargar el catálogo actualizado. " + error.message;
+  mostrarErrorCatalogo("No se pudo cargar el catálogo actualizado. " + error.message);
   console.error("No se pudo cargar el catálogo:", error);
 });
