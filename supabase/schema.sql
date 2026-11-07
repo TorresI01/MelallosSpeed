@@ -48,12 +48,30 @@ create table if not exists public.customers (
   id uuid primary key default gen_random_uuid(),
   full_name text not null,
   phone text not null default '',
+  status text not null default 'activo' check (status in ('activo', 'inactivo')),
   email text,
   address text,
   notes text not null default '',
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.customers
+  add column if not exists status text not null default 'activo';
+
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_constraint
+    where conrelid = 'public.customers'::regclass
+      and conname = 'customers_status_check'
+  ) then
+    alter table public.customers
+      add constraint customers_status_check check (status in ('activo', 'inactivo'));
+  end if;
+end;
+$$;
 
 create table if not exists public.suppliers (
   id uuid primary key default gen_random_uuid(),
@@ -351,10 +369,28 @@ begin
   end if;
 
   select jsonb_build_object(
-    'active_products', (select count(*) from public.products where active),
-    'stock_units', (select coalesce(sum(stock), 0) from public.products where active),
-    'low_stock_products', (select count(*) from public.products where active and stock <= min_stock),
+    'active_customers', (select count(*) from public.customers where status = 'activo'),
     'open_inquiries', (select count(*) from public.inquiries where status in ('nuevo', 'contactado', 'cotizado', 'pedido')),
+    'customer_status', (
+      select coalesce(jsonb_object_agg(status, row_count), '{}'::jsonb)
+      from (select status, count(*) as row_count from public.customers group by status) customer_counts
+    ),
+    'inquiry_status', (
+      select coalesce(jsonb_object_agg(status, row_count), '{}'::jsonb)
+      from (select status, count(*) as row_count from public.inquiries group by status) inquiry_counts
+    ),
+    'sales_status', (
+      select coalesce(jsonb_object_agg(status, row_count), '{}'::jsonb)
+      from (select status, count(*) as row_count from public.sales group by status) sale_counts
+    ),
+    'payment_status', (
+      select coalesce(jsonb_object_agg(payment_status, row_count), '{}'::jsonb)
+      from (
+        select payment_status, count(*) as row_count
+        from public.sales where status = 'confirmada'
+        group by payment_status
+      ) payment_counts
+    ),
     'sales_total_cop', (select coalesce(sum(total_cop), 0) from public.sales where status = 'confirmada' and payment_status <> 'reembolsado'),
     'expenses_total_cop', (select coalesce(sum(amount_cop), 0) from public.expenses),
     'balance_cop',
@@ -428,15 +464,20 @@ $$;
 revoke all on public.products from anon;
 grant select (id, name, category, brand, description, price_cop, image_path, image_style, visor, active)
   on public.products to anon;
-grant select on public.products to authenticated;
+grant select on public.products to authenticatedgrant insert on public.inquiries to anon, authenticated;
+grant insert on public.inquiries to anon, authenticated;
 grant insert on public.inquiries to anon, authenticated;
 grant select, insert, update, delete on public.products, public.customers, public.suppliers,
   public.inquiries, public.sales, public.expenses, public.inventory_movements to authenticated;
+revoke all on public.inventory_movements from public, anon, authenticated;
+revoke all (id, product_id, product_name, movement_type, quantity, reason, created_at)
+  on public.inventory_movements from public, anon, authenticated;
 grant select on public.admin_users to authenticated;
 revoke all on public.admin_users, public.customers, public.suppliers, public.sales, public.expenses,
   public.inventory_movements from anon;
-revoke all on public.inquiries from anon;
-grant insert on public.inquiries to anon;
+revoke all on public.inquiries from public, anon;
+grant all (id, customer_name, phone, product_name, reference, size, status, consent_given,
+  source, notes, created_at, updated_at) on public.inquiries to anon;
 revoke all on function public.admin_dashboard_summary() from public, anon;
 revoke all on function public.admin_monthly_report() from public, anon;
 grant execute on function public.admin_dashboard_summary() to authenticated;
