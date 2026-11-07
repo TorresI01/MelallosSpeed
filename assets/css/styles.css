@@ -9,9 +9,9 @@
   --ink: #1d1d1f;
   --ink-2: #6e6e73;
   --line: rgba(0, 0, 0, 0.08);
-  --blue: #0071e3;
-  --blue-hover: #0077ed;
-  --wa: #1fb855;
+  --blue: #0066cc;
+  --blue-hover: #004f9f;
+  --wa: #0f8a43;
 
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Segoe UI", Roboto, system-ui, sans-serif;
 
@@ -119,8 +119,8 @@ p { margin: 0 0 1rem; }
 .btn-small { padding: 0.4rem 1rem; font-size: 0.88rem; }
 .btn-primary { background: var(--blue); color: #fff; }
 .btn-primary:hover { background: var(--blue-hover); }
-.btn-wa { background: var(--wa); color: #fff; }
-.btn-wa:hover { background: #25c75f; }
+.btn-wa { background: #25d366; color: #052e14; }
+.btn-wa:hover { background: #3be07b; }
 
 .btn-link { color: var(--blue); text-decoration: none; font-weight: 500; }
 .btn-link::after { content: " ›"; }
@@ -140,7 +140,6 @@ p { margin: 0 0 1rem; }
     radial-gradient(40% 46% at 62% 86%, rgba(0, 86, 179, 0.16), transparent 70%);
 }
 .hero-inner { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; }
-
 .orb {
   width: 132px; height: 132px; border-radius: 50%;
   display: grid; place-items: center; margin-bottom: 1.8rem;
@@ -564,3 +563,63 @@ body.modal-open { overflow: hidden; }
     padding-bottom: 0.2rem;
   }
 }
+
+/* ==========================================================
+   Páginas legales, pie de página y formulario
+   ========================================================== */
+.legal-content { max-width: 760px; }
+.legal-content h1 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 0.5rem; }
+.legal-content h2 { font-size: 1.35rem; letter-spacing: -0.02em; margin: 2.2rem 0 0.6rem; }
+.legal-content p, .legal-content li { color: #424245; line-height: 1.6; }
+.legal-content ul { padding-left: 1.2rem; margin: 0 0 1rem; }
+.legal-content li { margin-bottom: 0.45rem; }
+.legal-content a { color: var(--blue); text-underline-offset: 3px; }
+.legal-content code { background: var(--bg-alt); border-radius: 6px; padding: 0.1rem 0.4rem; font-size: 0.9em; }
+.legal-updated { color: var(--ink-2) !important; font-size: 0.9rem; margin-bottom: 1.4rem; }
+.legal-notice { background: var(--bg-alt); border-radius: 16px; padding: 1rem 1.2rem; font-size: 0.95rem; }
+
+.footer-links { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1.3rem; }
+.footer-links a, .link-button { color: inherit; text-decoration: none; }
+.footer-links a:hover, .link-button:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.footer-links a[aria-current="page"] { color: var(--ink); font-weight: 600; }
+.link-button { background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
+
+.field-consent { display: flex; gap: 0.7rem; align-items: flex-start; }
+.field-consent input { flex: none; width: 20px; height: 20px; margin-top: 0.15rem; accent-color: #2997ff; cursor: pointer; }
+.field-consent label { font-size: 0.88rem; line-height: 1.45; color: #d2d2d7; cursor: pointer; }
+.field-consent label a { color: #6cb4ff; }
+.field-consent input[aria-invalid="true"] { outline: 2px solid #ff6961; outline-offset: 2px; }
+
+/* Campo trampa contra spam: invisible para las personas */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* ==========================================================
+   Aviso de cookies
+   ========================================================== */
+.cookie-banner {
+  position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 90;
+  max-width: 700px; margin-inline: auto; border-radius: 22px; padding: 1rem 1.2rem;
+  display: flex; flex-wrap: wrap; gap: 0.8rem 1.2rem; align-items: center; justify-content: space-between;
+  background: rgba(255, 255, 255, 0.97);
+}
+.cookie-text { margin: 0; flex: 1 1 280px; font-size: 0.9rem; line-height: 1.45; color: var(--ink); }
+.cookie-text a { color: var(--blue); text-underline-offset: 3px; }
+.cookie-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.cookie-btn { font: inherit; font-size: 0.9rem; font-weight: 600; border-radius: 999px; padding: 0.55rem 1.15rem; cursor: pointer; border: 1px solid transparent; }
+.cookie-primary { background: var(--ink); color: #fff; }
+.cookie-primary:hover { background: #000; }
+.cookie-secondary { background: #fff; color: var(--ink); border-color: rgba(0, 0, 0, 0.25); }
+.cookie-secondary:hover { border-color: var(--ink); }
+@media (max-width: 520px) {
+  .cookie-actions { width: 100%; }
+  .cookie-btn { flex: 1; }
+}
+
+/* ==========================================================
+   Página 404
+   ========================================================== */
+.notfound { min-height: 100vh; display: grid; place-content: center; justify-items: center; gap: 0.6rem; padding: 2rem 1.25rem; text-align: center; }
+.notfound-logo { border-radius: 50%; margin-bottom: 0.6rem; }
+.notfound-code { margin: 0; font-size: clamp(4.5rem, 16vw, 8rem); font-weight: 700; letter-spacing: -0.05em; line-height: 1; color: var(--ink); }
+.notfound h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); }
+.notfound-text { color: var(--ink-2); max-width: 34ch; margin: 0 0 1rem; }
