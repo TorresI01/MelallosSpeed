@@ -2,26 +2,48 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <script>if(location.protocol==="http:"&&!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)){location.replace("https:"+location.href.substring(location.protocol.length))}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Melallos Speed | Cascos para motociclistas en Itagüí, Medellín</title>
   <meta name="description" content="Melallos Speed: cascos Arai, AGV y Shoei, visores y accesorios para motociclistas. Consulta productos, haz encargos y pregunta por envíos desde Itagüí, Medellín.">
   <meta name="theme-color" content="#fbfbfd">
+  <link rel="canonical" href="https://TU-DOMINIO.com/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Melallos Speed">
+  <meta property="og:url" content="https://TU-DOMINIO.com/">
+  <meta property="og:image" content="https://TU-DOMINIO.com/assets/images/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Casco Arai de Melallos Speed con el lema: tu próximo casco empieza aquí">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Melallos Speed | Cascos para motociclistas">
+  <meta name="twitter:description" content="Cascos Arai, AGV y Shoei, visores y accesorios para motociclistas en Itagüí, Medellín.">
+  <meta name="twitter:image" content="https://TU-DOMINIO.com/assets/images/og-image.jpg">
   <meta property="og:locale" content="es_CO">
   <meta property="og:title" content="Melallos Speed | Cascos para motociclistas">
   <meta property="og:description" content="Cascos y accesorios para motociclistas. Consulta productos, encargos y envíos desde Itagüí, Medellín.">
-  <link rel="icon" type="image/png" sizes="256x256" href="assets/images/favicon.png?v=2">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicon.png?v=3">
+  <link rel="apple-touch-icon" href="assets/images/favicon.png?v=3">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://vidlaifbfjpnnodkzypk.supabase.co" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>
   <link rel="preload" as="image" href="assets/images/arai-06.jpg" fetchpriority="high">
   <link rel="stylesheet" href="assets/css/styles.css">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Store",
+      "@id": "https://TU-DOMINIO.com/#negocio",
       "name": "Melallos Speed",
+      "url": "https://TU-DOMINIO.com/",
+      "logo": "https://TU-DOMINIO.com/assets/images/logo.png",
+      "image": "https://TU-DOMINIO.com/assets/images/og-image.jpg",
+      "description": "Cascos Arai, AGV y Shoei, visores y accesorios para motociclistas en Itagüí, Medellín.",
       "telephone": "+573215203260",
       "address": {
         "@type": "PostalAddress",
@@ -30,6 +52,8 @@
         "addressRegion": "Antioquia",
         "addressCountry": "CO"
       },
+      "geo": { "@type": "GeoCoordinates", "latitude": 6.1650552, "longitude": -75.6137686 },
+      "hasMap": "https://maps.app.goo.gl/ychYpTRE3JGaHRcA9",
       "sameAs": ["https://www.instagram.com/melallos_speed/"]
     }
   </script>
@@ -91,7 +115,7 @@
     </section>
 
     <!-- CATÁLOGO -->
-    <section class="section" id="catalogo">
+    <section class="section" id="catalogo" aria-busy="true">
       <div class="wrap">
         <div class="section-head center">
           <h2>Catálogo</h2>
@@ -110,9 +134,6 @@
               <span class="sr-only">Filtrar por marca</span>
               <select id="marca">
                 <option value="todas">Todas las marcas</option>
-                <option value="Arai">Arai</option>
-                <option value="AGV">AGV</option>
-                <option value="Shoei">Shoei</option>
               </select>
             </label>
 
@@ -168,7 +189,7 @@
             <input id="v-casco" type="text" placeholder="Ej. Arai, Shoei, AGV…" autocomplete="off">
           </div>
 
-          <button class="btn btn-primary" id="v-enviar" type="button">Cotizar por WhatsApp</button>
+          <button class="btn btn-wa" id="v-enviar" type="button">Cotizar por WhatsApp</button>
           <p class="fine">Los colores son de referencia. Confirmamos disponibilidad y acabado antes de que decidas.</p>
         </div>
       </div>
@@ -215,13 +236,17 @@
             <label for="e-contacto">Tu teléfono o WhatsApp</label>
             <input id="e-contacto" name="contacto" type="tel" autocomplete="tel" required>
           </div>
+          <div class="hp" aria-hidden="true">
+            <label for="e-sitio-web">No llenes este campo</label>
+            <input id="e-sitio-web" name="sitio_web" type="text" tabindex="-1" autocomplete="off">
+          </div>
           <div class="field-consent">
             <input id="e-consentimiento" name="consentimiento" type="checkbox" required>
             <label for="e-consentimiento">Autorizo el tratamiento y almacenamiento de mis datos para gestionar esta consulta y, si lo decido, continuar por WhatsApp. Leí la <a href="privacidad.html" target="_blank" rel="noopener">Política de privacidad</a>.</label>
           </div>
           <p class="hint">Al enviar se abrirá WhatsApp con tu solicitud lista para enviar.</p>
           <p class="form-error" id="form-error" role="alert" hidden></p>
-          <button class="btn btn-primary" type="submit">Enviar encargo por WhatsApp</button>
+          <button class="btn btn-wa" type="submit">Enviar encargo por WhatsApp</button>
         </form>
       </div>
     </section>
@@ -274,7 +299,7 @@
               src="https://www.google.com/maps?q=6.1650552,-75.6137686&z=17&output=embed"
               loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
           </div>
-          <a class="btn btn-primary" href="https://maps.app.goo.gl/ychYpTRE3JGaHRcA9" target="_blank" rel="noopener">Cómo llegar</a>
+          <a class="btn-link" href="https://maps.app.goo.gl/ychYpTRE3JGaHRcA9" target="_blank" rel="noopener">Cómo llegar</a>
         </div>
 
         <div class="contact-info">
@@ -298,8 +323,10 @@
     <div class="wrap footer-inner">
       <span>&copy; <span id="anio"></span> Melallos Speed · Dg. 38A # 34-4, Ángeles · Itagüí, Antioquia</span>
       <nav class="footer-links" aria-label="Información legal">
+        <a href="aviso-legal.html">Aviso legal</a>
         <a href="privacidad.html">Privacidad</a>
         <a href="cookies.html">Cookies</a>
+        <button type="button" class="link-button" data-cookie-settings>Preferencias de cookies</button>
         <a href="derechos-autor.html">Derechos de autor</a>
         <a href="#inicio">Volver arriba</a>
       </nav>
@@ -342,5 +369,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="assets/js/supabase-config.js" defer></script>
   <script src="assets/js/app.js" defer></script>
+  <script src="assets/js/consent.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <script>if(location.protocol==="http:"&&!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)){location.replace("https:"+location.href.substring(location.protocol.length))}</script>
+  <script>
+    /* En una página 404 las rutas relativas se rompen (la URL pedida puede estar en cualquier carpeta).
+       Se fija la carpeta base del sitio a partir de la URL pública definida en el canonical. */
+    (function () {
+      var base = "/";
+      try { base = new URL(document.querySelector('link[rel="canonical"]').href).pathname.replace(/[^\/]*$/, ""); } catch (e) {}
+      document.write('<base href="' + base + '">');
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fbfbfd">
+  <meta name="robots" content="noindex">
+  <title>Página no encontrada | Melallos Speed</title>
+  <meta name="description" content="La página que buscas no existe o cambió de lugar. Vuelve al inicio de Melallos Speed.">
+  <link rel="canonical" href="https://TU-DOMINIO.com/404.html">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicon.png?v=3">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    /* Estilos mínimos por si la hoja principal no carga */
+    body { margin: 0; background: #fbfbfd; color: #1d1d1f; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  </style>
+</head>
+<body>
+  <main class="notfound">
+    <img class="notfound-logo" src="assets/images/logo.png" alt="Melallos Speed" width="96" height="96">
+    <p class="notfound-code">404</p>
+    <h1>Esta página no existe</h1>
+    <p class="notfound-text">Puede que el enlace esté mal escrito o que la página haya cambiado de lugar.</p>
+    <a class="btn btn-wa" href="./">Volver al inicio</a>
+  </main>
+</body>
+</html>

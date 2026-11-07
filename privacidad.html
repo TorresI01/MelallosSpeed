@@ -2,11 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <script>if(location.protocol==="http:"&&!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)){location.replace("https:"+location.href.substring(location.protocol.length))}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#fbfbfd">
+  <link rel="canonical" href="https://TU-DOMINIO.com/privacidad.html">
   <meta name="description" content="Conoce cómo Melallos Speed trata los datos personales enviados desde este sitio web.">
   <title>Política de privacidad | Melallos Speed</title>
-  <link rel="icon" type="image/png" sizes="256x256" href="assets/images/favicon.png?v=2">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicon.png?v=3">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
@@ -17,7 +19,7 @@
         <img class="brand-logo" src="assets/images/logo.png" alt="" width="32" height="32">
         <span class="brand-name">Melallos Speed</span>
       </a>
-      <a class="btn btn-primary btn-small" href="index.html#contacto">Contacto</a>
+      <a class="btn-link" href="index.html#contacto">Contacto</a>
     </div>
   </header>
   <main id="contenido" class="section">
@@ -37,7 +39,7 @@
       <p>Los datos se utilizan para guardar y gestionar la consulta o encargo, identificar el producto solicitado, dar seguimiento comercial y administrar la operación relacionada con el pedido. El formulario requiere que marques la casilla de autorización. Los enlaces generales a WhatsApp no guardan datos del formulario en la base de datos.</p>
 
       <h2>4. Servicios de terceros</h2>
-      <p>Supabase presta la base de datos y autenticación que usa el sitio y puede procesar la información enviada desde el formulario y el panel. El proyecto debe configurarse con acceso restringido y la región de alojamiento seleccionada por el responsable. Google Maps muestra la ubicación y Google Fonts entrega tipografías; WhatsApp procesa los mensajes que decidas enviar; Instagram opera el perfil enlazado. Estos servicios pueden recibir datos técnicos como la dirección IP, información del navegador y datos de uso, y aplican sus propias políticas:</p>
+      <p>Supabase presta la base de datos y autenticación que usa el sitio y puede procesar la información enviada desde el formulario y el panel. El proyecto debe configurarse con acceso restringido y la región de alojamiento seleccionada por el responsable. Google Maps muestra la ubicación, Google Fonts entrega tipografías y, solo si el titular activa la analítica y tú la aceptas en el aviso de cookies, Google Analytics mide de forma agregada el uso del sitio; WhatsApp procesa los mensajes que decidas enviar; Instagram opera el perfil enlazado. Estos servicios pueden recibir datos técnicos como la dirección IP, información del navegador y datos de uso, y aplican sus propias políticas:</p>
       <ul>
         <li><a href="https://supabase.com/privacy" target="_blank" rel="noopener">Privacidad de Supabase</a>.</li>
         <li><a href="https://policies.google.com/privacy?hl=es" target="_blank" rel="noopener">Privacidad de Google</a>.</li>
@@ -60,12 +62,15 @@
     <div class="wrap footer-inner">
       <span>&copy; 2026 Melallos Speed</span>
       <nav class="footer-links" aria-label="Información legal">
+        <a href="aviso-legal.html">Aviso legal</a>
         <a href="privacidad.html" aria-current="page">Privacidad</a>
         <a href="cookies.html">Cookies</a>
+        <button type="button" class="link-button" data-cookie-settings>Preferencias de cookies</button>
         <a href="derechos-autor.html">Derechos de autor</a>
         <a href="index.html">Volver al inicio</a>
       </nav>
     </div>
   </footer>
+  <script src="assets/js/consent.js" defer></script>
 </body>
 </html>

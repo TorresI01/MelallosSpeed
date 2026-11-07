@@ -2,11 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <script>if(location.protocol==="http:"&&!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)){location.replace("https:"+location.href.substring(location.protocol.length))}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b1220">
   <meta name="robots" content="noindex, nofollow">
   <title>Administración | Melallos Speed</title>
-  <link rel="icon" type="image/png" sizes="256x256" href="assets/images/favicon.png?v=2">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicon.png?v=3">
   <link rel="stylesheet" href="assets/css/admin.css">
 </head>
 <body class="admin-body">
@@ -14,7 +15,7 @@
     <section class="login-card" id="admin-login">
       <a class="admin-brand" href="index.html">Melallos <span>Speed</span></a>
       <p class="eyebrow">ADMINISTRACIÓN PRIVADA</p>
-      <h1>Ingresar al panel</h1>
+      <h1 id="login-heading">Ingresar al panel</h1>
       <p class="muted">Usa la cuenta autorizada en Supabase para administrar el negocio.</p>
       <form id="login-form">
         <label for="login-email">Correo electrónico</label>
@@ -24,6 +25,24 @@
         <button class="primary-button" type="submit">Iniciar sesión</button>
       </form>
       <button class="text-button login-reset-button" id="reset-password-button" type="button">¿Olvidaste tu contraseña?</button>
+      <form id="password-reset-request-form" hidden>
+        <p class="muted" id="password-reset-instructions">Te enviaremos un código de verificación a tu correo. Ingresa el código aquí; no necesitas abrir un enlace para cambiar la contraseña.</p>
+        <label for="reset-email">Correo electrónico</label>
+        <input id="reset-email" name="email" type="email" autocomplete="email" required>
+        <button class="primary-button" id="send-reset-code" type="submit">Enviar código</button>
+        <button class="text-button" id="cancel-password-reset" type="button">Volver a ingresar</button>
+      </form>
+      <form id="password-reset-form" hidden>
+        <p class="muted" id="reset-code-destination"></p>
+        <label for="reset-code">Código de verificación</label>
+        <input id="reset-code" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required>
+        <label for="reset-new-password">Nueva contraseña</label>
+        <input id="reset-new-password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+        <label for="reset-confirm-password">Confirma la contraseña</label>
+        <input id="reset-confirm-password" name="confirm-password" type="password" autocomplete="new-password" minlength="8" required>
+        <button class="primary-button" id="verify-reset-code" type="submit">Verificar código y cambiar contraseña</button>
+        <button class="text-button" id="resend-reset-code" type="button">Enviar otro código</button>
+      </form>
       <form id="password-update-form" hidden>
         <label for="new-password">Nueva contraseña</label>
         <input id="new-password" name="password" type="password" autocomplete="new-password" minlength="8" required>
@@ -41,6 +60,7 @@
         <a class="admin-brand" href="index.html">Melallos <span>Speed</span></a>
         <p class="eyebrow">PANEL DEL NEGOCIO</p>
         <nav class="admin-nav" aria-label="Administración">
+          <button type="button" class="nav-item" data-view="manual">Registro manual</button>
           <button type="button" class="nav-item is-active" data-view="dashboard">Resumen</button>
           <button type="button" class="nav-item" data-view="products">Productos e inventario</button>
           <button type="button" class="nav-item" data-view="customers">Clientes</button>
@@ -50,9 +70,11 @@
           <button type="button" class="nav-item" data-view="suppliers">Proveedores</button>
           <button type="button" class="nav-item" data-view="inventory_movements">Movimientos de inventario</button>
           <button type="button" class="nav-item" data-view="reports">Informes</button>
+          <button type="button" class="nav-item" data-view="administrators">Administradores</button>
         </nav>
         <div class="sidebar-bottom">
           <a href="index.html" target="_blank" rel="noopener">Ver sitio público</a>
+          <button type="button" id="change-password-button" class="text-button">Cambiar contraseña</button>
           <button type="button" id="logout-button" class="text-button">Cerrar sesión</button>
         </div>
       </aside>
@@ -68,12 +90,45 @@
         <div class="notice" id="app-notice" role="status" hidden></div>
         <section class="dashboard-view" id="dashboard-view">
           <div class="metric-grid" id="metric-grid"></div>
+          <section class="panel-card status-summary-card">
+            <div class="panel-heading">
+              <div><p class="eyebrow">SEGUIMIENTO</p><h2>Estado de clientes, encargos y ventas</h2></div>
+            </div>
+            <div id="status-summary" class="status-summary"></div>
+          </section>
+          <div class="dashboard-chart-grid">
+            <section class="panel-card">
+              <div class="panel-heading">
+                <div><p class="eyebrow">TENDENCIA MENSUAL</p><h2>Ventas y gastos</h2></div>
+              </div>
+              <p class="chart-note">Últimos 6 meses · ventas confirmadas y gastos registrados manualmente (COP).</p>
+              <div id="monthly-chart" class="chart-container"></div>
+            </section>
+            <section class="panel-card">
+              <div class="panel-heading">
+                <div><p class="eyebrow">EXISTENCIAS</p><h2>Productos con menos existencias</h2></div>
+              </div>
+              <p class="chart-note">Stock actual frente al mínimo definido; primero se muestran los productos más urgentes.</p>
+              <div id="stock-chart" class="chart-container"></div>
+            </section>
+          </div>
+        </section>
+        <section class="manual-view" id="manual-view" hidden>
           <div class="panel-card">
             <div class="panel-heading">
-              <div><p class="eyebrow">ATENCIÓN PENDIENTE</p><h2>Últimos encargos</h2></div>
-              <button type="button" class="secondary-button" data-go="inquiries">Ver encargos</button>
+              <div><p class="eyebrow">CAPTURA CENTRALIZADA</p><h2>Crear registros del negocio</h2></div>
             </div>
-            <div id="recent-inquiries"></div>
+            <p class="muted">La página web es un catálogo y canal de contacto, no una tienda en línea. Registra aquí las operaciones acordadas fuera de la web; cada formulario guarda el registro en su sección correspondiente. Puedes editar los datos desde esa sección.</p>
+            <div class="manual-actions">
+              <button type="button" class="manual-action" data-register="customers"><strong>Agregar cliente</strong><span>Guardar contacto e información de seguimiento.</span></button>
+              <button type="button" class="manual-action" data-register="inquiries"><strong>Registrar encargo</strong><span>Anotar una solicitud recibida por cualquier canal.</span></button>
+              <button type="button" class="manual-action" data-register="sales"><strong>Registrar venta</strong><span>Registrar una venta acordada fuera del sitio.</span></button>
+              <button type="button" class="manual-action" data-register="expenses"><strong>Registrar gasto</strong><span>Guardar un egreso y asociar proveedor.</span></button>
+              <button type="button" class="manual-action" data-register="suppliers"><strong>Agregar proveedor</strong><span>Guardar o actualizar sus datos de contacto.</span></button>
+              <button type="button" class="manual-action" data-register="products"><strong>Agregar producto o ajustar inventario</strong><span>Administrar catálogo y existencias.</span></button>
+              <button type="button" class="manual-action" id="invite-admin-button"><strong>Invitar administrador</strong><span>Autorizar a otra persona para usar el panel.</span></button>
+            </div>
+            <p class="operations-note">Las ventas confirmadas descuentan el inventario. Para corregir producto, cantidad o precio, anula la venta y registra otra; el historial no se borra.</p>
           </div>
         </section>
         <section class="module-view" id="module-view" hidden>
@@ -82,7 +137,6 @@
               <div><p class="eyebrow" id="module-eyebrow">ADMINISTRACIÓN</p><h2 id="module-heading"></h2></div>
               <div class="panel-actions">
                 <button type="button" class="secondary-button" id="export-button">Exportar CSV</button>
-                <button type="button" class="primary-button" id="add-record-button">Nuevo registro</button>
               </div>
             </div>
             <p class="muted module-description" id="module-description"></p>
@@ -109,6 +163,48 @@
       <div class="dialog-actions">
         <button type="button" class="secondary-button" id="cancel-dialog">Cancelar</button>
         <button type="submit" class="primary-button" id="save-record-button">Guardar registro</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="record-dialog" id="invite-admin-dialog">
+    <form id="invite-admin-form">
+      <div class="panel-heading">
+        <div><p class="eyebrow">ACCESO AL PANEL</p><h2>Invitar administrador</h2></div>
+        <button type="button" class="icon-button" id="close-invite-dialog" aria-label="Cerrar">×</button>
+      </div>
+      <p class="muted">Enviaremos un enlace para que esta persona active su cuenta y cree una contraseña. Tendrá acceso completo al panel.</p>
+      <div class="form-grid">
+        <label class="form-field wide" for="invite-admin-email">
+          <span>Correo electrónico</span>
+          <input id="invite-admin-email" name="email" type="email" autocomplete="email" required>
+        </label>
+      </div>
+      <p class="notice error" id="invite-admin-error" role="alert" hidden></p>
+      <div class="dialog-actions">
+        <button type="button" class="secondary-button" id="cancel-invite-dialog">Cancelar</button>
+        <button type="submit" class="primary-button" id="send-admin-invite">Enviar invitación</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="record-dialog" id="change-admin-email-dialog">
+    <form id="change-admin-email-form">
+      <div class="panel-heading">
+        <div><p class="eyebrow">MIGRACIÓN DE ACCESO</p><h2>Cambiar correo del administrador</h2></div>
+        <button type="button" class="icon-button" id="close-change-admin-email-dialog" aria-label="Cerrar">×</button>
+      </div>
+      <p class="muted">Enviaremos una invitación al correo nuevo y transferiremos la autorización. La persona deberá aceptar la invitación para activar su acceso.</p>
+      <div class="form-grid">
+        <label class="form-field wide" for="change-admin-email">
+          <span>Nuevo correo electrónico</span>
+          <input id="change-admin-email" name="email" type="email" autocomplete="email" required>
+        </label>
+      </div>
+      <p class="notice error" id="change-admin-email-error" role="alert" hidden></p>
+      <div class="dialog-actions">
+        <button type="button" class="secondary-button" id="cancel-change-admin-email-dialog">Cancelar</button>
+        <button type="submit" class="primary-button" id="save-change-admin-email">Enviar invitación y cambiar</button>
       </div>
     </form>
   </dialog>
